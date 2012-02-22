@@ -32,11 +32,12 @@
 
 
    Opciones:
-      - send_mail: si lo activamos el sistema enviará un mensaje de correo electrónico 
-                   CADA VEZ que una web deja de estar accesible. El servidor debe 
-                   estar configurado para el envio de correo con la orden mail.
+      - send_mail: si lo activamos el sistema enviará un mensaje de correo 
+                   electrónico CADA VEZ que una web deja de estar accesible. El 
+                   servidor debe estar configurado para el envio de correo con la 
+                   orden mail.
                    Exige configurar también la dirección de correo del destinatario.
                     
       - save_log:  activa el registro de log. Exige especificar un archivo de log.
-                   ATENCION: el usuario que lanza el script debe tener permisos, sobre
-                   ese fichero. 
+                   ATENCION: el usuario que lanza el script debe tener permisos, 
+                   sobre ese fichero. 

@@ -37,8 +37,9 @@
    Opciones:
       - send_mail: si lo activamos el sistema enviará un mensaje de correo electrónico 
                    CADA VEZ que una web deja de estar accesible. El servidor debe 
-                   estar configurado para el envio de correo con la orden mail.
-                   Exige configurar también la dirección de correo del destinatario.
+                   estar configurado para el envio de correo con la orden mail. En caso
+                   contrario debemos configurar un host SMTP.
+                   
                     
       - save_log:  activa el registro de log. Exige especificar un archivo de log.
                    ATENCION: el usuario que lanza el script debe tener permisos, sobre
@@ -62,12 +63,12 @@ $save_log = 0;
 $log_file = "/home/user/SimplePHPWebMonitor.log";
 
 //send_mail [1/0] = [on / off]
-$send_mail = 0;
-$receiver = "tu_direccion@de_correo_com";
+$send_mail = 1;
+$to = "gonzalo.cao@ua.com";
+
 
 //configuracion de los parámetros de correo
 $from = "From: SimplePHPWebMonitor ";
-$to = $receiver;
 $subject = "ATENCION alguna página no respondió";
 $some_url_failed_flag = 0;
 
@@ -89,13 +90,13 @@ foreach ($sites as $url)
    if (isValidURL($url)){
       $sitio = @fopen($url,"r");
       if ($sitio){
-         $status = date("Y-m-d G-i")." - OK - ".$url."\r\n";
+         $status = date("Y-m-d G-i")." - OK - ".$url."\r\n</br>";
       } else {
-         $status = date("Y-m-d G-i")." - FAILED TO FETCH - ".$url."\r\n";
+         $status = date("Y-m-d G-i")." - FAILED TO FETCH - ".$url."\r\n</br>";
          $some_url_failed_flag = 1;
       }
    } else { 
-      $status = date("Y-m-d G-i")." - URL BAD FORMED - ".$url."\r\n";
+      $status = date("Y-m-d G-i")." - URL BAD FORMED - ".$url."\r\n</br>";
    }
    
    //mostramos salida por consola
@@ -111,9 +112,9 @@ if ($save_log == 1)
 {
    //intentamos abrir el archivo y añadir el log
    if (file_put_contents( $log_file, $log_txt, FILE_APPEND))
-      echo "Archivo de log actualizado correctamente\r\n";
+      echo "Archivo de log actualizado correctamente\r\n</br>";
    else
-      echo "Error, no se pudo actualizar el archivo de log. Compruebe que tiene permisos de escritura\r\n";
+      echo "Error, no se pudo actualizar el archivo de log. Compruebe que tiene permisos de escritura\r\n</br>";
 } 
 
 
@@ -121,12 +122,15 @@ if ($save_log == 1)
 //enviamos en mensaje
 if (($send_mail == 1 ) && ($some_url_failed_flag == 1 ))
 {
-   $mensaje .= $log_txt;
+   $mensaje = $log_txt;
    $cabeceras = "MIME-Version: 1.0\r\n";
-   $cabeceras .= "Content-type: text/html; charset=iso-8859-1\r\n";
+   $cabeceras .= "Content-type: text/html; charset=iso-8859-1\r\n</br>";
    $cabeceras .= $from;
-   mail( $to , $subject, $mensaje, $cabeceras);
-}         
-
+   
+   if (mail( $to , $subject, $mensaje, $cabeceras))
+      echo "Mensaje de correo enviado correctamente\r\n</br>";
+   else
+      echo "Error, no se pudo enviar en mensaje. Revise su configuración de PHP\r\n</br>";         
+}
  
 ?>
