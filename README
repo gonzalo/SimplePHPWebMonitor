@@ -1,0 +1,42 @@
+   Simple PHP Web Monitor
+   
+   Version: 0.2
+   License: GPL (http://es.tldp.org/Otros/gples/gples.html)
+   Autor: Gonzalo Cao Cabeza de Vaca
+   Mailto: gonzalo(punto)cao@gmail(punto)com
+
+   Simple PHP Web Monitor es un script en php que monitoriza el estado de las 
+   webs indicadas en la configuración. Es capaz de mostrar el estado a través
+   del navegador o funcionar en modo servicio notificando los cambios vía correo
+   electrónico
+
+
+   Uso:
+
+   Como página web:
+      - para acceder en cualquier momento copiar el archivo en una carpeta accesible 
+        desde el servidor web
+      - el servidor web debe ser capaz de ejecutar código PHP (lógico ¿no?)
+
+   Como servicio:
+      - es indiferente donde esté copiado el archivo
+      - el servidor debe tener instalado el intérprete de php (generalmente en 
+        /bin/php) puedes probar a lanzar el script a mano con:
+
+           $php SimplePHPWebMonitor.php
+
+      - Configuramos el crontab ($crontab -e) añadiendo la siguiente línea para que 
+        se ejecute cada 10 minutos:
+
+        0,10,20,30,40,50 * * * * /bin/php /[path_to_sript]/SimplePHPWebMonitor.php
+
+
+   Opciones:
+      - send_mail: si lo activamos el sistema enviará un mensaje de correo electrónico 
+                   CADA VEZ que una web deja de estar accesible. El servidor debe 
+                   estar configurado para el envio de correo con la orden mail.
+                   Exige configurar también la dirección de correo del destinatario.
+                    
+      - save_log:  activa el registro de log. Exige especificar un archivo de log.
+                   ATENCION: el usuario que lanza el script debe tener permisos, sobre
+                   ese fichero. 
